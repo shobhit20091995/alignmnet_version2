@@ -1,0 +1,8 @@
+flask==2.3.2
+nltk
+sentence-transformers
+pandas
+transformers==4.29.2
+torch==2.0.1
+numpy<2
+openpyxl
