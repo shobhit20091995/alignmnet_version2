@@ -66,9 +66,6 @@ model_folder = 'smart_model/'  # Update this path based on your S3 bucket struct
 
 local_model_dir = os.path.join(current_directory, 'smart_model')
 
-
-
-
 # Create local directory if it does not exist
 os.makedirs(local_model_dir, exist_ok=True)
 
