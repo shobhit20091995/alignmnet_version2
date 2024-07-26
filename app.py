@@ -56,14 +56,24 @@ s3 = boto3.client(
     region_name='ap-southeast-2'
 )
 
+# Get the current working directory
+current_directory = os.path.dirname(os.path.abspath(__file__))
+
 
 # Define your bucket name and the path to the model files
 bucket_name = 'intalign'
 model_folder = 'smart_model/'  # Update this path based on your S3 bucket structure
-local_model_dir = r'C:\Users\HP\Downloads\New folder\docker-model\smart_model'
+
+local_model_dir = os.path.join(current_directory, 'smart_model')
+
+
+
 
 # Create local directory if it does not exist
 os.makedirs(local_model_dir, exist_ok=True)
+
+print(f"The local model directory has been created at: {local_model_dir}")
+
 
 def download_model_from_s3():
     try:
