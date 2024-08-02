@@ -1,0 +1,18 @@
+{
+    "artifactName":"ProjectScopeStatement",
+    "elements":{
+     "Project Objectives" : "To configure Salesforce CRM to meet ACME's specific requirements. To ensure a smooth transition from the old system without disrupting ongoing operations. To train ACME staff to effectively use the new system." ,
+     "Project Deliverables": "A fully functional Salesforce CRM system customized for ACME Inc.; data migration completed with integrity checks; user manuals and training materials; post-implementation technical support for 3 months." ,
+     "Scope Description": "To replace the existing CRM system with Salesforce to enhance functionality, integration, and user satisfaction. Customization of the CRM to support sales, marketing, and customer service. Integration with other key systems. Data migration with minimal downtime." ,
+     "Acceptance Criteria": "User adoption rates and satisfaction levels, successful data migration without significant issues, and operational efficiency improvements post-implementation." ,
+     "Assumptions": "Assuming stakeholder engagement and availability; assuming access to necessary IT infrastructure and resources for successful implementation." ,
+     "Constraints": "Budgetary constraints of $230,000; time constraints to ensure project completion by March 1, 2025; resource availability." ,
+     "Project Exclusions": "Ongoing support post-implementation." ,
+     "Key Stakeholders": "Project Sponsor: John Doe, Chief Sales Officer; Project Manager: Jane Smith, Senior Project Manager; Technical Lead: Alice Johnson, IT Manager; CRM Specialist: Bob Clark, Salesforce Consultant." ,
+     "Project Milestones": "Project Kickoff: September 1, 2024; Milestone 1 (System Configuration): November 15, 2024; Milestone 2 (Data Migration and Integration) December 20, 2024; Milestone 3 (Training and Go-Live): February 10, 2025." ,
+     "Scope Verification": "None" ,
+     "Scope Control": "None" ,
+     "Change Control Process": "Establish a process for recognizing and documenting potential changes; impact analysis of proposed changes; approval process and monitoring and reporting mechanisms." ,
+     "Risk Identification": "Potential risks include resistance to change, data migration issues, and reliance on vendor support; strategies for risk mitigation will be formulated."
+     }
+}

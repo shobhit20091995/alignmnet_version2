@@ -1,0 +1,23 @@
+{
+    "artifactName":"ProjectRequirements",
+    "elements":{
+    "Business Requirements":"To implement Salesforce CRM to enhance operational efficiency and customer relationship management at ACME Inc.",
+    "Functional Requirements": "Customization of the CRM to support sales, marketing, and customer service. Integration with other key systems. Data migration with minimal downtime.",
+    "Non-Functional Requirements": "Quality standards defined for all deliverables; quality assurance will be conducted through testing phases of the implementation.",
+    "User Requirements Specification": "None",
+    "System Requirements Specification": "None",
+    "Interface Requirements Specification (IRS)": "None",
+    "Design Requirements": "None",
+    "Traceability Matrix": "None",
+    "Use Case": "None",
+    "Data Requirements": "Data migration with minimal downtime.",
+    "Testing Requirements": "Quality assurance will be conducted through testing phases of the implementation.",
+    "Change Control": "Establish a process for recognizing and documenting potential changes; impact analysis of proposed changes; approval process and monitoring and reporting mechanisms.",
+    "Deployment Requirements": "None",
+    "Training Requirements": "Training sessions planned for January to ensure team readiness and strategy for knowledge transfer during the transition phase.",
+    "Legal and Compliance Requirements": "None",
+    "Maintenance and Support Requirements": "Post-implementation technical support for 3 months.",
+    "Stakeholder Requirements": "Project Sponsor: John Doe, Chief Sales Officer; Project Manager: Jane Smith, Senior Project Manager; Technical Lead: Alice Johnson, IT Manager; CRM Specialist: Bob Clark, Salesforce Consultant.",
+    "Transition Requirements": "Deployment Plan: Preparation and Planning, September 2024 - October 2024; System Implementation, November 2024 - January 2025; Training and Go-Live, February 2025. Support Plan: Post-implementation technical support for 3 months."}
+    
+}

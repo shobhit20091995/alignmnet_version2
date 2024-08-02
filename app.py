@@ -13,7 +13,7 @@ Created on Mon Jul  1 01:43:24 2024
 """
 
 import os
-import boto3
+import boto3    
 from botocore.exceptions import ClientError
 from flask import Flask, request, jsonify
 from sentence_transformers import SentenceTransformer, util
@@ -81,34 +81,31 @@ def download_model_from_s3():
         # List all objects in the specified folder
         objects = s3.list_objects_v2(Bucket=bucket_name, Prefix=model_folder)
 
-        # Download each file from the S3 bucket to the local directory
+        files_to_download = []
+
+        # Check for missing files
         if 'Contents' in objects:
             for obj in objects['Contents']:
                 key = obj['Key']
                 file_name = os.path.relpath(key, model_folder)
                 local_file_path = os.path.join(local_model_dir, file_name)
-                local_dir = os.path.dirname(local_file_path)
+                
+                if not os.path.exists(local_file_path):
+                    files_to_download.append((key, local_file_path))
 
-                # Create local directory if it does not exist
+        # Download each missing file from the S3 bucket to the local directory
+        if files_to_download:
+            for key, local_file_path in files_to_download:
+                local_dir = os.path.dirname(local_file_path)
                 os.makedirs(local_dir, exist_ok=True)
 
                 try:
                     s3.download_file(bucket_name, key, local_file_path)
-                    print(f'Successfully downloaded {file_name}')
+                    print(f'Successfully downloaded {key}')
                 except Exception as e:
-                    print(f'Error downloading {file_name}: {e}')
+                    print(f'Error downloading {key}: {e}')
         else:
-            print(f'No objects found in {model_folder}')
-
-        # Check if files are downloaded
-        for obj in objects.get('Contents', []):
-            key = obj['Key']
-            file_name = os.path.relpath(key, model_folder)
-            local_file_path = os.path.join(local_model_dir, file_name)
-            if os.path.exists(local_file_path):
-                print(f'{file_name} exists in {local_model_dir}')
-            else:
-                print(f'{file_name} does not exist in {local_model_dir}')
+            print('All files are already present locally.')
 
     except ClientError as e:
         error_code = e.response['Error']['Code']
@@ -127,7 +124,7 @@ tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 model = BertForSequenceClassification.from_pretrained(local_model_dir, ignore_mismatched_sizes=True)
 
 # Load the dataset from the uploaded Excel file
-file_path = 'SMAT Table.xlsx'
+file_path = 'Updated_SMAT_Table.xlsx'
 df = pd.read_excel(file_path)
 
 # Normalize the titles in the dataframe for comparison
