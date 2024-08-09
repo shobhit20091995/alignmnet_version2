@@ -27,6 +27,7 @@ from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 import nltk
 from dotenv import load_dotenv
+from flask import Flask, request, jsonify, abort
 
 
 # Download NLTK data
@@ -252,20 +253,39 @@ def check_alignment_sbert(artifact):
     for section, content in artifact.items():
         if section == "artifactName":
             continue
-        master_content = content["Master"]
-        slaves_content = content["Slaves"]
-        for master_key, master_value in master_content.items():
-            similarities = []
-            for slave in slaves_content:
-                for slave_key, slave_value in slave.items():
-                    similarity = calculate_similarity_sbert(master_value, slave_value)
-                    similarities.append((slave_key, slave_value, similarity, master_value))
-            alignment_results[(section, master_key)] = similarities
-            total_similarity = sum(similarity for _, _, similarity, _ in similarities)
-            average_similarity = total_similarity / len(similarities) if similarities else 0
-            section_averages[section] = section_averages.get(section, []) + [average_similarity]
+        try:
+            # Check for missing 'Master' or 'Slaves'
+            if "Master" not in content:
+                raise KeyError(f"Missing 'Master' in section: {section}")
+            if "Slaves" not in content:
+                raise KeyError(f"Missing 'Slaves' in section: {section}")
+
+            master_content = content["Master"]
+            slaves_content = content["Slaves"]
+
+            for master_key, master_value in master_content.items():
+                similarities = []
+                for slave in slaves_content:
+                    for slave_key, slave_value in slave.items():
+                        similarity = calculate_similarity_sbert(master_value, slave_value)
+                        similarities.append((slave_key, slave_value, similarity, master_value))
+                alignment_results[(section, master_key)] = similarities
+                total_similarity = sum(similarity for _, _, similarity, _ in similarities)
+                average_similarity = total_similarity / len(similarities) if similarities else 0
+                section_averages[section] = section_averages.get(section, []) + [average_similarity]
+
+        except KeyError as e:
+            # Return a dictionary with an error message
+            return {
+                "error": {
+                    "message": str(e),
+                    "type": "not found error",
+                    "code": 404
+                }
+            }
+
     overall_averages = {section: sum(averages) / len(averages) for section, averages in section_averages.items()}
-    return alignment_results, overall_averages
+    return {"results": alignment_results, "averages": overall_averages}
 
 @app.route('/analyze', methods=['POST'])
 def check_alignment():
@@ -273,7 +293,15 @@ def check_alignment():
     results = []
     for artifact in input_data["artifacts"]:
         artifact_name = artifact["artifactName"]
-        alignment_results, overall_averages = check_alignment_sbert(artifact)
+        response = check_alignment_sbert(artifact)
+
+        # Check if there was an error
+        if "error" in response:
+            return jsonify(response["error"]), 404
+
+        alignment_results = response["results"]
+        overall_averages = response["averages"]
+
         artifact_result = {
             "artifactName": artifact_name,
             "alignmentResults": [],
